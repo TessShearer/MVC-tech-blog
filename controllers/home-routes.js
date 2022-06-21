@@ -1,5 +1,3 @@
-// Everything here is copied from the just-tech-news assignment for my reference when writing my own - though I did edit some of it and may keep chunks
-
 const router = require('express').Router();
 const sequelize = require('../config/connection');
 const { Post, User, Comment, Vote } = require('../models');
@@ -10,30 +8,15 @@ router.get('/', (req, res) => {
   Post.findAll({
     attributes: [
       'id',
-      'text',
-      'title',
-      'user',
+      'header',
+      'text',      
       'date',
-      [sequelize.literal('(SELECT COUNT(*) FROM like WHERE post.id = like.post_id)'), 'like_count']
+      'user',
+      //[sequelize.literal('(SELECT COUNT(*) FROM like WHERE post.id = like.post_id)'), 'like_count']
     ],
-    include: [
-      {
-        model: Comment,
-        attributes: ['id', 'comment_text', 'post_id', 'user_id', 'date'],
-        include: {
-          model: User,
-          attributes: ['username']
-        }
-      },
-      {
-        model: User,
-        attributes: ['username']
-      }
-    ]
   })
     .then(dbPostData => {
       const posts = dbPostData.map(post => post.get({ plain: true }));
-
       res.render('homepage', { posts, loggedIn: req.session.loggedIn });
     })
     .catch(err => {

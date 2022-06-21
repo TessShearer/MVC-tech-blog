@@ -1,9 +1,9 @@
-// Everything here is copied from the just-tech-news assignment for my reference when writing my own
-
 const { Model, DataTypes } = require('sequelize');
 const sequelize = require('../config/connection');
 
-class Comment extends Model {}
+class Comment extends Model {
+  // empty for now
+}
 
 Comment.init(
   {
@@ -19,6 +19,10 @@ Comment.init(
       validate: {
         len: [1]
       }
+    },
+    date: {
+      type: DataTypes.DATE,
+      allowNull: false,
     },
     user_id: {
       type: DataTypes.INTEGER,

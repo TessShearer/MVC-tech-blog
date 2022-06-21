@@ -1,9 +1,9 @@
-// Everything here is copied from the just-tech-news assignment for my reference when writing my own
-
 const { Model, DataTypes } = require('sequelize');
 const sequelize = require('../config/connection');
 
-class Like extends Model {}
+class Like extends Model {
+  // nothing in here yet
+}
 
 Like.init(
   {

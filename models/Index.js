@@ -1,12 +1,10 @@
-// Everything here is copied from the just-tech-news assignment for my reference when writing my own
+// This page creates all the necessary associations between models
 
-// import all models
 const Post = require('./Post');
 const User = require('./User');
 const Like = require('./Like');
 const Comment = require('./Comment');
 
-// create associations
 User.hasMany(Post, {
   foreignKey: 'user_id'
 });

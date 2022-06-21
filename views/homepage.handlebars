@@ -1,5 +1,5 @@
-<div class="start-text">
-    <h1>Welcome to the MVC Tech Blog! Please log in or sign up to continue!</h1>
-</div>
-
-{{!-- This also needs to include any posts that have already been made...somehow --}}
+<p>Hey!</p>
+{{#each posts}}
+<p>{{this.user}}</p>
+{{/each}}
+{{!-- Posts that have been made, option to sign in, option to go to dashboard, and option to go to homepage (just redirects here again). Only the homepage link should work, the rest ask you to sign in --}}

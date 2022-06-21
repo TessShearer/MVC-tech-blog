@@ -1,18 +1,15 @@
-// Everything here is copied from the just-tech-news assignment for my reference when writing my own
-
 const { Model, DataTypes } = require('sequelize');
-const bcrypt = require('bcrypt');
 const sequelize = require('../config/connection');
+const bcrypt = require('bcrypt');
 
-// create our User model
+// User model, checks that password matches the encrypted password made with sign up
 class User extends Model {
-  // set up method to run on instance data (per user) to check password
   checkPassword(loginPw) {
     return bcrypt.compareSync(loginPw, this.password);
   }
 }
 
-// create fields/columns for User model
+// sets up user mysql table
 User.init(
   {
     id: {
@@ -25,34 +22,22 @@ User.init(
       type: DataTypes.STRING,
       allowNull: false
     },
-    email: {
-      type: DataTypes.STRING,
-      allowNull: false,
-      unique: true,
-      validate: {
-        isEmail: true
-      }
-    },
     password: {
       type: DataTypes.STRING,
       allowNull: false,
       validate: {
-        len: [4]
+        len: [7],
+        contains: '!',
+        message: 'Please enter a valid password.'
       }
     }
   },
   {
     hooks: {
-      // set up beforeCreate lifecycle "hook" functionality
       async beforeCreate(newUserData) {
         newUserData.password = await bcrypt.hash(newUserData.password, 10);
         return newUserData;
       },
-
-      async beforeUpdate(updatedUserData) {
-        updatedUserData.password = await bcrypt.hash(updatedUserData.password, 10);
-        return updatedUserData;
-      }
     },
     sequelize,
     timestamps: false,
